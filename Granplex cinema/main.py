@@ -122,23 +122,33 @@ class Available_shows:
 
     booking = []
 
+    def display_shows_admin(self):
+        count = 1
+        print("\nWe currently streaming the following shows: ")
+        for x in Available_shows.shows.keys():
+            print(count, x)
+            count += 1
+        adminDashboard.displayProfile(self)
 
     def display_shows(self):
         count = 1
-        print("We currently streaming the following shows: ")
+        print("\nWe currently streaming the following shows: ")
         for x in Available_shows.shows.keys():
             print(count, x)
             count += 1
         Available_shows.user_choice(self)
 
     def user_choice(self):
-        choice = int(input("Would you like to book a show?\n"))
-        print("\n\nMovie name:" , Available_shows.movie_titles[choice-1],"\n\nDescription:" , Available_shows.shows[Available_shows.movie_titles[choice-1]]['Description'],"\n\nGenre:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Genre'], "\n\nMeta Score:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Meta Score'], "\n\nSeat Price:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Seat Price'], "\n\nDuration:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Duration'], "\n\nActors:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Actors'])
+        choice = int(input("Which show would you like to book?\n0. Exit\n"))
+        if choice == 0:
+            userDashboard.displayProfile(self)
+        else:
+            print("\n\nMovie name:" , Available_shows.movie_titles[choice-1],"\n\nDescription:" , Available_shows.shows[Available_shows.movie_titles[choice-1]]['Description'],"\n\nGenre:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Genre'], "\n\nMeta Score:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Meta Score'], "\n\nSeat Price:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Seat Price'], "\n\nDuration:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Duration'], "\n\nActors:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Actors'])
 
-        choice2 = int(input("Book Seat?\n\n1.YES\n2.NO\n"))
+        choice2 = int(input("\nBook Seat?\n\n1.YES\n2.NO\n"))
 
         if choice2 == 1:
-            print("Time Slots Available\n\n1:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Time Slot 1'], "\n2:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Time Slot 2'], "\n\n0. Go Back\n")
+            print("\nTime Slots Available\n\n1:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Time Slot 1'], "\n2:", Available_shows.shows[Available_shows.movie_titles[choice-1]]['Time Slot 2'], "\n\n0. Go Back\n")
             choice3 = int(input("Which time slot do you prefer?\n"))
             
             Available_shows.booking.append(Available_shows.movie_titles[choice-1])
@@ -150,7 +160,7 @@ class Available_shows:
             if choice3 == 0:
                 Available_shows.display_shows(self)
 
-            print("Your seat has been booked for: ")
+            print("\nYour seat has been booked for: ")
             for data in Available_shows.booking:
                 print(data)
 
@@ -229,7 +239,7 @@ class Available_shows:
         choice = int(input("\nWhich show would you like to edit?\n\nTo Exit, press 0"))
 
         if choice != 0:
-            choice2 = input("What will you like to edit?\n")
+            choice2 = input("Type in what will you like to edit?\nDescription, Genre, Meta Score, Seat Price, Duration, Actors, Time Slot 1, Time Slot 2.")
             Available_shows.shows[Available_shows.movie_titles[choice-1]][choice2] = input("=>")
             print("Changes made successfully!\n")
             adminDashboard.displayProfile(self)
@@ -239,7 +249,7 @@ class adminDashboard(login_signup):
         print('\n')
         print('='*15 + '  ADMIN DASHBOARD  ' + '='*15)
         print(f'\n\nWelcome {self.admin_name}')
-        choice = int(input('\nWhat would you like to do?\n1.Set shows\n2.Check reservations\n3.Remove Shows\n4.Edit Shows\n0.Exit\n'))
+        choice = int(input('\nWhat would you like to do?\n1.Set shows\n2.Check reservations\n3.Remove Shows\n4.Edit Shows\n5.Available Shows\n0.Exit\n'))
         if choice == 1:
             Available_shows.add_show(self)
 
@@ -251,6 +261,9 @@ class adminDashboard(login_signup):
 
         if choice == 4:
             Available_shows.edit_show(self)
+
+        if choice == 5:
+            Available_shows.display_shows_admin(self)
             
         if choice == 0:
             login_signup.admin(self)
@@ -323,4 +336,3 @@ if a.is_admin:
 
 if a.is_user:
     userDashboard.displayProfile(a)
- 
